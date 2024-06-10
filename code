@@ -1,0 +1,93 @@
+import json
+import argparse
+
+
+def read_file(file_path):
+    with open(file_path, 'r') as file:
+        content = file.read()
+    return content
+
+
+def parse_order_event(order_event):
+    attributes = order_event.split(", ")
+
+    order_attrs = {}
+    for attr in attributes:
+        if ": " in attr:
+            key, value = attr.split(": ", 1)
+        else:
+            key = attr
+            value = ""
+        order_attrs[key.strip()] = value.strip('"')
+
+    return order_attrs
+
+
+def convert_to_json(vector_format):
+    orders = []
+
+    order_events = vector_format.split("}, {")
+    for order_event in order_events:
+        order_event = order_event.strip("{}")
+        order_attrs = parse_order_event(order_event)
+
+        print("Order", order_attrs)
+
+        new_order = {
+            "RootOrderID": "",
+            "ClordID": "",
+            "OrigClordID": "",
+            "Instance": "LCETEST01",
+            "SourceSysCode": "",
+            "TraderID": "",
+            "Region": "",
+            "TradeDate": "",
+            "Trader_Location": "",
+            "Booking_ID": "",
+            "DeskID": "",
+            "BookingLegalEntityID": "",
+            "OrderQty": 0.0,
+            "Instrument": "",
+            "Price": 0.0,
+            "Side": "",
+            "Instrument_Type": "",
+            "Product": "",
+            "OrdType": "",
+            "Capacity": "",
+            "TimeInForce": "",
+            "FlowType": "",
+            "Country": "",
+            "Currency": "",
+            "RLChecks": "",
+            "DOUPDATE": "",
+            "IS_CBFM": 0,
+            "Order_Action": "",
+            "CheckContext": {"Checks": []},
+            "CheckOverrides": []
+        }
+
+        new_order.update(order_attrs)
+
+        orders.append({"NewOrder": new_order})
+    json_data = {
+        "CheckRequest": {
+            "OrderEventInfos": orders
+        }
+    }
+
+    return json.dumps(json_data, indent=2)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Convert vector format to JSON format")
+    parser.add_argument("vector_format_file",
+                        help="vector format input file")
+    parser.add_argument("desired_format_file",
+                        help="desired format file")
+
+    args = parser.parse_args()
+
+    vector_format_input = read_file(args.vector_format_file)
+    json_output = convert_to_json(vector_format_input)
+    print(json_output)
