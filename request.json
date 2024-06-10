@@ -1,0 +1,42 @@
+{
+  "CheckRequest": {
+    "OrderEventInfos": [
+      {
+        "NewOrder": {
+          "RootOrderID": "",
+          "ClordID": "",
+          "OrigClordID": "",
+          "Instance": "LCETEST01",
+          "SourceSysCode": "",
+          "TraderID": "",
+          "Region": "",
+          "TradeDate": "",
+          "Trader_Location": "",
+          "Booking_ID": "",
+          "DeskID": "",
+          "BookingLegalEntityID": "",
+          "OrderQty": ,
+          "Instrument": "",
+          "Price": ,
+          "Side": "",
+          "Instrument_Type": "",
+          "Product": "",
+          "OrdType": "",
+          "Capacity": "",
+          "TimeInForce": "",
+          "FlowType": "",
+          "Country": "",
+          "Currency": "",
+          "RLChecks": "", 
+          "DOUPDATE": "",
+          "IS_CBFM": 0,
+          "Order_Action": "",
+          "CheckContext": {
+            "Checks": []
+          },
+          "CheckOverrides": []
+        }
+      }
+    ]
+  }
+}
