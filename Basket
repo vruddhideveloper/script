@@ -1,0 +1,29 @@
+import re
+
+# Function to read the log file and identify basket orders
+def collect_basket_orders(log_file_path):
+    basket_orders = []
+
+    with open(log_file_path, 'r') as log_file:
+        for line in log_file:
+            if 'MT_RISK' in line:
+                # Find all occurrences of order_event_uuid in the line
+                order_event_uuids = re.findall(r'order_event_uuid: \S+', line)
+                # Check if there are multiple occurrences
+                if len(order_event_uuids) > 1:
+                    basket_orders.append(line.strip())
+
+    return basket_orders
+
+# Main function to execute the script
+def main(log_file_path):
+    basket_orders = collect_basket_orders(log_file_path)
+    return basket_orders
+
+# Example usage
+log_file_path = 'path/to/your/logfile.log'
+basket_orders = main(log_file_path)
+
+# Print or process basket orders
+for order in basket_orders:
+    print(order)
